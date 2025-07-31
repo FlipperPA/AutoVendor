@@ -210,8 +210,8 @@ local defaults = {
 			[155468] = "Anglin' Art's Treads",
 			[168804] = "Powered Piscine Procurement Pole",
 			[169064] = "Mountebank\'s Colorful Cloak",
-			[180136] = "The Brokers Angle\'r"
-			[185954] = "Passably-Forged Credentials",
+			[180136] = "The Brokers Angle\'r",
+			[185954] = "Passably-Forged Credentials"
 		},
 		junk = {
 		},
