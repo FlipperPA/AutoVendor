@@ -733,6 +733,15 @@ AV_UNUSABLE_ITEMS = {
 		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Plate, Enum.ItemArmorSubclass.Shield },
 		[Enum.ItemClass.Weapon] = { Enum.ItemWeaponSubclass.Mace1H, Enum.ItemWeaponSubclass.Mace2H, Enum.ItemWeaponSubclass.Wand, Enum.ItemWeaponSubclass.Thrown, Enum.ItemWeaponSubclass.Warglaive },
 	},
+	['EVOKER'] = {
+		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Plate, Enum.ItemArmorSubclass.Shield },
+		[Enum.ItemClass.Weapon] = {
+			Enum.ItemWeaponSubclass.Bows, Enum.ItemWeaponSubclass.Guns, Enum.ItemWeaponSubclass.Crossbow,
+			Enum.ItemWeaponSubclass.Wand,
+			Enum.ItemWeaponSubclass.Thrown, Enum.ItemWeaponSubclass.Warglaive,
+			Enum.ItemWeaponSubclass.Polearm,
+		},
+	},
 	['MAGE'] = {
 		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Leather, Enum.ItemArmorSubclass.Mail, Enum.ItemArmorSubclass.Plate, Enum.ItemArmorSubclass.Shield },
 		[Enum.ItemClass.Weapon] = { Enum.ItemWeaponSubclass.Axe1H, Enum.ItemWeaponSubclass.Axe2H, Enum.ItemWeaponSubclass.Bows, Enum.ItemWeaponSubclass.Guns, Enum.ItemWeaponSubclass.Mace1H, Enum.ItemWeaponSubclass.Mace2H, Enum.ItemWeaponSubclass.Polearm, Enum.ItemWeaponSubclass.Sword2H, Enum.ItemWeaponSubclass.Unarmed, Enum.ItemWeaponSubclass.Thrown, Enum.ItemWeaponSubclass.Crossbow, Enum.ItemWeaponSubclass.Warglaive },
@@ -777,6 +786,9 @@ AV_NON_OPTIMAL_ITEMS = {
 	},
 	['DRUID'] = {
 		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Cloth },
+	},
+	['EVOKER'] = {
+		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Cloth, Enum.ItemArmorSubclass.Leather },
 	},
 	['HUNTER'] = {
 		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Cloth, Enum.ItemArmorSubclass.Leather },
