@@ -53,7 +53,7 @@ local options = {
     	get = function(info) return AV.db.profile.selllegionartifact end,
     	width = 'full'
     },
-    fortunecards = { 
+    fortunecards = {
     	type = 'toggle',
     	order = 5,
     	name = L['Sell cheap fortune cards'],
@@ -245,11 +245,11 @@ function AV:OnInitialize()
 	if ldb then
 		local avDataObj = ldb:NewDataObject("AutoVendor", {type = "data source", text = "AutoVendor", icon = "Interface\\Icons\\Inv_Misc_MonsterScales_08"})
 		local avF = CreateFrame("frame")
-	
+
 		avF:SetScript("OnUpdate", function(self, elap)
 			elapsed = elapsed + elap
 			if elapsed < UPDATEPERIOD then return end
-		
+
 			elapsed = 0
 			local iconSize = select(2, GetChatWindowInfo(1)) - 2
 			local repairCost = GetRepairAllCost()
@@ -278,13 +278,13 @@ function AV:Debug(val, editbox)
 		self:Print('Add an item link to the debug statement to get information about that item.')
 		return
 	end
-	
+
 	self:Print('Showing information about: ' .. val)
 
 	local link = GetItemInfo(val)
 	local _, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassId, itemSubClassId = GetItemInfo(link)
 	local itemLevel = GetDetailedItemLevelInfo(link)
-	
+
 	if itemQuality then
 		self:Print('Item quality: "' .. itemQuality .. '"')
 	end
@@ -305,7 +305,7 @@ end
 function AV:GetJunkAmount()
 	local totalSellValue = 0
 	local numSlots = 0
-	
+
 	for bag=0,4 do
 		for slot=1,C_Container.GetContainerNumSlots(bag) do
 			local link = C_Container.GetContainerItemLink(bag, slot)
@@ -331,7 +331,7 @@ function AV:GetJunkAmount()
 			end
 		end
 	end
-	
+
 	return totalSellValue, numSlots
 end
 
@@ -482,21 +482,21 @@ function AV:DropCheapest(msg, editbox)
 			PickupContainerItem(cheapestJunkItem["bag"], cheapestJunkItem["slot"])
 			DeleteCursorItem()
 		end
-	else 
+	else
 		self:Print(L['No junk to throw away'])
 	end
 end
 
 function AV:IsJunk(link)
 	local itemId = tonumber(strmatch(link, "item:(%d+)"))
-	
+
 	if itemId == nil then
 		return false
 	else
 		if itemsJunk[itemId] == nil then
 			itemsJunk[itemId] = self:ShouldSell(link)
 		end
-		
+
 		return itemsJunk[itemId]
 	end
 end
@@ -505,32 +505,32 @@ function AV:ShouldSell(link)
 	local itemId = tonumber(strmatch(link, "item:(%d+)"))
 	local itemName, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassId, itemSubClassId = GetItemInfo(link)
 	local itemLevel = GetDetailedItemLevelInfo(link)
-	
+
 	-- Noboru's Cudgel
-	if itemId == 6196 then 
-		return false 
-	end 
-	
+	if itemId == 6196 then
+		return false
+	end
+
 	-- Peon's Mining Pick
 	if itemId == 116913 then
 		return false
 	end
-	
+
 	-- Don't sell legendary, artifact or heirloom items
 	if itemQuality and itemQuality > 4 then
 		return false
 	end
-	
+
 	-- item is in the "always sell" list
 	if self.db.profile.junk[itemId] then
 		return true
 	end
-	
+
 	-- item is in the "never sell" list
 	if self.db.profile.not_junk[itemId] then
 		return false
 	end
-	
+
 	if self.db.profile.sellfortunecards and AV_FORTUNE_CARDS[itemId] == true then
 		return true
 	end
@@ -538,26 +538,26 @@ function AV:ShouldSell(link)
 	if self.db.profile.selllegionartifact and itemClassId == Enum.ItemClass.Gem and itemSubClassId == Enum.ItemGemSubclass.Artifactrelic then
 		return true
 	end
-	
+
 	-- item is level 1, don't sell
 	if itemLevel == 1 and itemQuality ~= 0 then
 		return false
 	end
-	
+
 	if itemsBOP[itemId] == nil or itemsUseEquip[itemId] == nil then
 		local soulbound, useEquip = self:GetTooltipInfo(link)
 		itemsBOP[itemId] = soulbound
 		itemsUseEquip[itemId] = useEquip
 	end
-	
+
 	local _,class = UnitClass('player')
 
 	if itemClassId == Enum.ItemClass.Weapon or itemClassId == Enum.ItemClass.Armor then
-		-- sell items below a certain item level 
+		-- sell items below a certain item level
 		if itemsBOP[itemId] and not itemsUseEquip[itemId] and AV.db.profile.selllowlevelitems and itemLevel < AV.db.profile.sellbelowitemlevel then
 			return true
 		end
-			
+
 		-- sell unusable soulbound items
 		if self.db.profile.soulbound then
 			-- sell unusable items
@@ -570,14 +570,14 @@ function AV:ShouldSell(link)
 	-- sell non-optimal soulbound items
 	if self.db.profile.nonoptimal then
 		local _,class = UnitClass('player')
-		
+
 		if itemClassId == Enum.ItemClass.Armor and itemEquipLoc ~= 'INVTYPE_CLOAK' and itemsBOP[itemId] then
 			if AV:NonOptimal(class, itemClassId, itemSubClassId) then
 				return true
 			end
 		end
 	end
-	
+
 	-- item is grey
 	if itemQuality == 0 then
 		return true
@@ -589,36 +589,36 @@ end
 function AV:GetTooltipInfo(link)
 	local soulbound = false
 	local useEquip = false
-	
+
 	local f = CreateFrame('GameTooltip', 'AVTooltip', UIParent, 'GameTooltipTemplate')
 	f:SetOwner(UIParent, 'ANCHOR_NONE')
 	f:SetHyperlink(link)
-	
+
 	for i = 0,20 do
 		local tooltipLine = _G['AVTooltipTextLeft' .. i]
 		if tooltipLine ~= nil then
 			local tooltipString = tooltipLine:GetText()
-	
+
 			if self:FindString(tooltipString, ITEM_BIND_ON_PICKUP) then
 				soulbound = true
 			end
-			
+
 			if self:FindString(tooltipString, USE_COLON) or self:FindString(tooltipString, L['Equip:']) then
 				useEquip = true
 			end
 		end
 	end
-	
+
 	f:Hide()
-	
+
 	return soulbound, useEquip
 end
 
 function AV:FindString(haystack, needle)
-	if haystack == nil then 
-		return false 
+	if haystack == nil then
+		return false
 	end
-	
+
 	return string.find(haystack, needle)
 end
 
@@ -628,7 +628,6 @@ function AV:MERCHANT_SHOW()
 	local totalItemsSold = 0
 	local repairCost = 0
 	local usedGuildBankRepair = false
-	local warningShown = false
 
 	if self.db.profile.autorepair and CanMerchantRepair() then
 		repairCost, canRepair = GetRepairAllCost()
@@ -641,39 +640,23 @@ function AV:MERCHANT_SHOW()
 			end
 		end
 	end
-	
+
+	self.junkQueue = {}
+
 	for bag=0,4 do
 		for slot=1,C_Container.GetContainerNumSlots(bag) do
 			local link = C_Container.GetContainerItemLink(bag, slot)
-			if link then
-				local itemId = tonumber(strmatch(link, "item:(%d+)"))
-				if AV:IsJunk(link) then
-					if totalItemsSold == 12 then
-						if not warningShown then
-							self:Print(L['12 items sold'])
-							warningShown = true
-						end
-					else
-						local itemCount = C_Container.GetContainerItemInfo(bag, slot).stackCount
-						local sellValue = itemCount * select(11, GetItemInfo(link))
-						if sellValue > 0 then
-							totalSellValue = totalSellValue + sellValue
-							totalItemsSold = totalItemsSold + 1
-							C_Container.UseContainerItem(bag, slot)
-							if self.db.profile.verbosity == 'all' then
-								self:Print(format(L['Selling x of y for z'], link, itemCount, GetCoinTextureString(sellValue, iconSize)))
-							end
-						else
-							if self.db.profile.verbosity == 'all' then
-								self:Print(format(L['Item has no vendor worth'], link))
-							end
-						end
-					end
-				end
+			if link and self:IsJunk(link) then
+				table.insert(self.junkQueue, { bag = bag, slot = slot, link = link })
 			end
 		end
 	end
-	
+
+	self.totalSellValue = 0
+	self.totalItemsSold = 0
+	self.iconSize = select(2, GetChatWindowInfo(1)) - 2
+	self:SellNextItem()
+
 	if self.db.profile.verbosity == 'all' or self.db.profile.verbosity == 'summary' then
 		if totalItemsSold > 0 then
 			local items = L['Multiple items']
@@ -690,6 +673,39 @@ function AV:MERCHANT_SHOW()
 			end
 		end
 	end
+end
+
+function AV:SellNextItem()
+	if #self.junkQueue == 0 then
+		if self.db.profile.verbosity == "all" or self.db.profile.verbosity == "summary" then
+			if self.totalItemsSold > 0 then
+				local itemsText = self.totalItemsSold == 1 and L['Single item'] or L['Multiple items']
+				self:Print(format(L['Summary sold x item(s) for z'], self.totalItemsSold, itemsText, GetCoinTextureString(self.totalSellValue, self.iconSize)))
+			end
+		end
+		return
+	end
+
+	local item = table.remove(self.junkQueue, 1)
+	local bag, slot, link = item.bag, item.slot, item.link
+	local itemInfo = C_Container.GetContainerItemInfo(bag, slot)
+	if itemInfo then
+		local count = itemInfo.stackCount or 1
+		local price = select(11, GetItemInfo(link)) or 0
+		local value = count * price
+
+		if value > 0 then
+			C_Container.UseContainerItem(bag, slot)
+			self.totalSellValue = self.totalSellValue + value
+			self.totalItemsSold = self.totalItemsSold + 1
+
+			if self.db.profile.verbosity == "all" then
+				self:Print(format(L['Selling x of y for z'], link, count, GetCoinTextureString(value, self.iconSize)))
+			end
+		end
+	end
+
+	C_Timer.After(0.2, function() self:SellNextItem() end) -- delay before selling next item
 end
 
 function AV:BAG_UPDATE()
@@ -819,7 +835,7 @@ AV_NON_OPTIMAL_ITEMS = {
 	},
 }
 
-AV_FORTUNE_CARDS = { 
+AV_FORTUNE_CARDS = {
 	[62590] = true,
 	[60845] = true,
 	[62606] = true,
