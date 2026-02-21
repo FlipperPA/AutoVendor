@@ -52,7 +52,7 @@ Other languages will work, but only the "sell grey items" feature will work for 
 * From the command line:
 
 ```bash
-cd /Applications/World of Warcraft/_retail_/Interface/AddOns  # Change for Windows or Linux
+cd cd /Applications/World\ of\ Warcraft/_retail_/Interface/AddOns/  # Change for Windows or Linux
 zip -r AutoVendor.zip AutoVendor
 unzip -l AutoVendor  # Check to ensure all files are under a single `AutoVendor/` top-level directory.
 ```
