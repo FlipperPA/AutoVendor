@@ -281,9 +281,9 @@ function AV:Debug(val, editbox)
 
 	self:Print('Showing information about: ' .. val)
 
-	local link = GetItemInfo(val)
-	local _, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassId, itemSubClassId = GetItemInfo(link)
-	local itemLevel = GetDetailedItemLevelInfo(link)
+	local link = C_Item.GetItemInfo(val)
+	local _, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassId, itemSubClassId = C_Item.GetItemInfo(link)
+	local itemLevel = C_Item.GetDetailedItemLevelInfo(link)
 
 	if itemQuality then
 		self:Print('Item quality: "' .. itemQuality .. '"')
@@ -312,7 +312,7 @@ function AV:GetJunkAmount()
 			if link and AV:IsJunk(link) then
 				local itemCount = C_Container.GetContainerItemInfo(bag, slot).stackCount
 				if itemCount then
-					local vendorWorth = select(11, GetItemInfo(link))
+					local vendorWorth = select(11, C_Item.GetItemInfo(link))
 					if vendorWorth then
 						local sellValue = itemCount * vendorWorth
 						if sellValue > 0 then
@@ -365,7 +365,7 @@ local function listFormatWithoutPrint(list)
 	table.sort(tmpList)
 	tmpString = ''
 	for k,v in pairs(list) do
-		local item_link = select(2, GetItemInfo(k))
+		local item_link = select(2, C_Item.GetItemInfo(k))
 		if item_link == nil then
 			item_link = v
 		end
@@ -415,7 +415,7 @@ function AV:ToggleJunk(msg, editbox)
 	if msg then
 		self:ResetJunkCache()
 		local itemId = tonumber(strmatch(msg, "item:(%d+)"))
-		local itemName = select(1, GetItemInfo(msg))
+		local itemName = select(1, C_Item.GetItemInfo(msg))
 		if itemId and itemName then
 			listToggle(self.db.profile.junk, 'junk list', itemId, itemName)
 		else
@@ -434,7 +434,7 @@ function AV:ToggleNotJunk(msg, editbox)
 	if msg then
 		self:ResetJunkCache()
 		local itemId = tonumber(strmatch(msg, "item:(%d+)"))
-		local itemName = select(1, GetItemInfo(msg))
+		local itemName = select(1, C_Item.GetItemInfo(msg))
 		if itemId and itemName then
 			listToggle(self.db.profile.not_junk, 'not junk list', itemId, itemName)
 		else
@@ -479,7 +479,7 @@ function AV:DropCheapest(msg, editbox)
 	if cheapestJunkItem["link"] ~= nil then
 		self:Print(string.format(L['Throwing away'], cheapestJunkItem["link"]))
 		if not CursorHasItem() then
-			PickupContainerItem(cheapestJunkItem["bag"], cheapestJunkItem["slot"])
+			C_Container.PickupContainerItem(cheapestJunkItem["bag"], cheapestJunkItem["slot"])
 			DeleteCursorItem()
 		end
 	else
@@ -503,8 +503,8 @@ end
 
 function AV:ShouldSell(link)
 	local itemId = tonumber(strmatch(link, "item:(%d+)"))
-	local itemName, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassId, itemSubClassId = GetItemInfo(link)
-	local itemLevel = GetDetailedItemLevelInfo(link)
+	local itemName, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassId, itemSubClassId = C_Item.GetItemInfo(link)
+	local itemLevel = C_Item.GetDetailedItemLevelInfo(link)
 
 	-- Noboru's Cudgel
 	if itemId == 6196 then
@@ -691,7 +691,7 @@ function AV:SellNextItem()
 	local itemInfo = C_Container.GetContainerItemInfo(bag, slot)
 	if itemInfo then
 		local count = itemInfo.stackCount or 1
-		local price = select(11, GetItemInfo(link)) or 0
+		local price = select(11, C_Item.GetItemInfo(link)) or 0
 		local value = count * price
 
 		if value > 0 then

@@ -1,9 +1,9 @@
-## Interface: 110200
+## Interface: 120000
 ## Title: AutoVendor
 ## Notes: Automatically sells useless stuff and repairs your gear.
 ## SavedVariables: AutoVendorDB
 ## Author: Olafski
-## Version: 77
+## Version: 78
 embeds.xml
 Locale\enUS.lua
 Locale\ruRU.lua
