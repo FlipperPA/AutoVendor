@@ -5,7 +5,7 @@ if not L then return end
 L["Loaded language"] = "Russian"
 
 ---------------------------------------------------------------------------
--- Texts ZamestoTV                                                                 --
+-- Texts                                                                           --
 --                                                                       --
 -- Any placeholders (%s, %d, et cetera) should remain in the same order! --
 ---------------------------------------------------------------------------
