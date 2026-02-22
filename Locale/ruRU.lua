@@ -5,7 +5,7 @@ if not L then return end
 L["Loaded language"] = "Russian"
 
 ---------------------------------------------------------------------------
--- Texts                                                                           --
+-- Texts                                                                 --
 --                                                                       --
 -- Any placeholders (%s, %d, et cetera) should remain in the same order! --
 ---------------------------------------------------------------------------
@@ -79,3 +79,4 @@ L['12 items sold'] = 'Продано 12 предметов, но в сумках
 
 -- Misc
 L['Equip:'] = 'Если на персонаже:'
+
