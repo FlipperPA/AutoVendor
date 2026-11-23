@@ -3,7 +3,7 @@
 ## Notes: Automatically sells useless stuff and repairs your gear.
 ## SavedVariables: AutoVendorDB
 ## Author: FlipperPA
-## Version: 79
+## Version: 80
 embeds.xml
 Locale\enUS.lua
 Locale\ruRU.lua
