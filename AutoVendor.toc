@@ -2,8 +2,8 @@
 ## Title: AutoVendor
 ## Notes: Automatically sells useless stuff and repairs your gear.
 ## SavedVariables: AutoVendorDB
-## Author: Olafski
-## Version: 78
+## Author: FlipperPA
+## Version: 79
 embeds.xml
 Locale\enUS.lua
 Locale\ruRU.lua
