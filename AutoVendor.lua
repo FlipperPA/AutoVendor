@@ -700,7 +700,7 @@ function AV:SellNextItem()
 			self.totalItemsSold = self.totalItemsSold + 1
 
 			if self.db.profile.verbosity == "all" then
-				self:Print(format(L['Selling x of y for z'], link, count, GetCoinTextureString(value, self.iconSize)))
+				self:Print(format(L['Selling x of y for z'], link, count, C_CurrencyInfo.GetCoinTextureString(value, self.iconSize)))
 			end
 		end
 	end
