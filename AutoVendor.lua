@@ -263,7 +263,7 @@ function AV:OnInitialize()
 				end
 				updateBrokerDisplay = false
 			end
-			avDataObj.text = "Repair: "..GetCoinTextureString(repairCost, iconSize).." / Junk: "..GetCoinTextureString(totalSellValue, iconSize).." ("..numSlots.." slots)"
+			avDataObj.text = "Repair: "..C_CurrencyInfo.GetCoinTextureString(repairCost, iconSize).." / Junk: "..C_CurrencyInfo.GetCoinTextureString(totalSellValue, iconSize).." ("..numSlots.." slots)"
 			avDataObj.label = "AutoVendor"
 		end)
 	end
@@ -663,13 +663,13 @@ function AV:MERCHANT_SHOW()
 			if totalItemsSold == 1 then
 				items = L['Single item']
 			end
-			self:Print(format(L['Summary sold x item(s) for z'], totalItemsSold, items, GetCoinTextureString(totalSellValue, iconSize)))
+			self:Print(format(L['Summary sold x item(s) for z'], totalItemsSold, items, C_CurrencyInfo.GetCoinTextureString(totalSellValue, iconSize)))
 		end
 		if repairCost > 0 then
 			if usedGuildBankRepair then
-				self:Print(format(L['Repaired all items for x from guild bank'], GetCoinTextureString(repairCost, iconSize)))
+				self:Print(format(L['Repaired all items for x from guild bank'], C_CurrencyInfo.GetCoinTextureString(repairCost, iconSize)))
 			else
-				self:Print(format(L['Repaired all items for x'], GetCoinTextureString(repairCost, iconSize)))
+				self:Print(format(L['Repaired all items for x'], C_CurrencyInfo.GetCoinTextureString(repairCost, iconSize)))
 			end
 		end
 	end
@@ -680,7 +680,7 @@ function AV:SellNextItem()
 		if self.db.profile.verbosity == "all" or self.db.profile.verbosity == "summary" then
 			if self.totalItemsSold > 0 then
 				local itemsText = self.totalItemsSold == 1 and L['Single item'] or L['Multiple items']
-				self:Print(format(L['Summary sold x item(s) for z'], self.totalItemsSold, itemsText, GetCoinTextureString(self.totalSellValue, self.iconSize)))
+				self:Print(format(L['Summary sold x item(s) for z'], self.totalItemsSold, itemsText, C_CurrencyInfo.GetCoinTextureString(self.totalSellValue, self.iconSize)))
 			end
 		end
 		return
